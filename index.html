@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Antony's Profile</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(45deg, #111111, #1a1a2e, #16213e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* --- Shared Glass Container Style --- */
+        .glass-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            transition: all 0.5s ease;
+        }
+
+        /* --- LOGIN SECTION STYLES --- */
+        #login-section {
+            max-width: 400px;
+            display: flex; /* Initially Visible */
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lock-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .pass-input {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 20px 0;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .pass-input:focus {
+            border-color: #00f2fe;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+        }
+
+        .enter-btn {
+            padding: 10px 40px;
+            border-radius: 30px;
+            border: none;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .enter-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+        }
+
+        .hint-text {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: #888;
+            font-style: italic;
+        }
+
+        .error-msg {
+            color: #ff4b4b;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            height: 20px; /* Reserve space */
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        /* --- PROFILE SECTION STYLES (Hidden Initially) --- */
+        #profile-section {
+            max-width: 550px;
+            display: none; /* Initially Hidden */
+            opacity: 0;
+            transform: scale(0.95);
+        }
+
+        #profile-section.active {
+            display: block;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 600;
+        }
+
+        .image-container img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            padding: 5px;
+            transition: all 0.4s ease;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.05) rotate(3deg);
+            border-color: #00f2fe;
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.5);
+        }
+
+        /* Details Grid */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0 30px 0;
+            text-align: left;
+        }
+
+        .detail-card {
+            background: rgba(255, 255, 255, 0.07);
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.3s;
+        }
+
+        .detail-card:hover { background: rgba(255, 255, 255, 0.12); }
+        .detail-label { font-size: 0.75rem; color: #4facfe; text-transform: uppercase; display: block; }
+        .detail-value { font-size: 0.95rem; font-weight: 600; color: #fff; }
+        .full-width { grid-column: span 2; }
+
+        h2 {
+            font-size: 1.2rem;
+            color: #4facfe;
+            margin: 25px 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        h2::after {
+            content: ''; display: block; width: 50%; height: 2px;
+            background: #4facfe; margin: 5px auto 0; border-radius: 2px;
+        }
+
+        ul { list-style: none; display: flex; justify-content: center; gap: 12px; }
+        li { background: rgba(255, 255, 255, 0.1); padding: 8px 24px; border-radius: 50px; font-size: 0.9rem; transition: 0.3s; }
+        li:hover { background: rgba(79, 172, 254, 0.2); color: #4facfe; transform: translateY(-2px); }
+
+        a { color: #fff; text-decoration: none; transition: color 0.3s; }
+        a:hover { color: #00f2fe; }
+
+        .timeline-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: #111;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4);
+            transition: transform 0.3s ease;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .glass-box { padding: 25px; }
+            .details-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="login-section" class="glass-box">
+        <div class="lock-icon">🔒</div>
+        <h2>Restricted Access</h2>
+        <p style="color: #ccc; margin-top: 5px; font-size: 0.9rem;">Identity Verification Required</p>
+        
+        <input type="password" id="passwordInput" class="pass-input" placeholder="Enter Password">
+        
+        <button onclick="checkPassword()" class="enter-btn">Unlock</button>
+        
+        <p class="error-msg" id="errorMsg">Incorrect Password</p>
+        <p class="hint-text">Hint: What is my nickname?</p>
+    </div>
+
+    <div id="profile-section" class="glass-box">
+        <h1>Antony's Profile</h1>
+        <div class="image-container">
+            <img src="Assets/1000123114.png" alt="Profile Picture">
+        </div>
+
+        <div class="details-grid">
+            <div class="detail-card">
+                <span class="detail-label">Name</span>
+                <span class="detail-value">Maria Antony Selvam S</span>
+            </div>
+            <div class="detail-card">
+                <span class="detail-label">Born</span>
+                <span class="detail-value">Feb 6, 2008</span>
+            </div>
+            <div class="detail-card">
+                <span class="detail-label">Native</span>
+                <span class="detail-value">Kuruvinatham</span>
+            </div>
+            <div class="detail-card">
+                <span class="detail-label">Course</span>
+                <span class="detail-value">BCA</span>
+            </div>
+            <div class="detail-card full-width">
+                <span class="detail-label">College</span>
+                <span class="detail-value">Kamaraj College</span>
+            </div>
+        </div>
+        
+        <h2>Hobbies</h2>
+        <ul>
+            <li>Gaming</li>
+            <li>Coding</li>
+            <li>Editing</li>
+        </ul>
+
+        <h2>Contact Information</h2>
+        <div class="contact-info">
+            <p>Email: <a href="mailto:selvam.m.s.k2442@gmail.com">selvam.m.s.k2442@gmail.com</a></p>
+            <p>Phone: <a href="https://wa.me/qr/PDXKKTQ4YR7VG1">+91 6380466535</a></p>
+        </div>
+
+        <a href="timeline.html" class="timeline-btn">View My Journey 🚀</a>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const input = document.getElementById('passwordInput');
+            const error = document.getElementById('errorMsg');
+            const loginSection = document.getElementById('login-section');
+            const profileSection = document.getElementById('profile-section');
+
+            // Check if password is 'Alan'
+            if (input.value.toLowerCase() === "alan") {
+                // Success Animation
+                loginSection.style.opacity = '0';
+                setTimeout(() => {
+                    loginSection.style.display = 'none';
+                    profileSection.style.display = 'block';
+                    
+                    // Small delay to trigger fade-in
+                    setTimeout(() => {
+                        profileSection.classList.add('active');
+                    }, 50);
+                }, 500);
+            } else {
+                // Error Animation
+                error.style.opacity = '1';
+                input.style.borderColor = '#ff4b4b';
+                
+                // Shake effect
+                loginSection.style.transform = 'translateX(10px)';
+                setTimeout(() => { loginSection.style.transform = 'translateX(-10px)'; }, 100);
+                setTimeout(() => { loginSection.style.transform = 'translateX(0)'; }, 200);
+            }
+        }
+
+        // Allow pressing "Enter" key to submit
+        document.getElementById("passwordInput").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                checkPassword();
+            }
+        });
+    </script>
+</body>
+</html>
