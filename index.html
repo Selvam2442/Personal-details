@@ -1,11 +1,10 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Antony's Profile</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -35,7 +34,6 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* --- Shared Glass Container Style --- */
         .glass-box {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px);
@@ -43,16 +41,10 @@
             border-radius: 24px;
             padding: 40px;
             width: 100%;
+            max-width: 550px;
             text-align: center;
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: all 0.5s ease;
-        }
-
-        /* --- PROFILE SECTION STYLES --- */
-        #profile-section {
-            max-width: 550px;
-            display: block; /* Always visible now */
-            animation: fadeIn 1s ease-out; /* Added a simple fade-in on load */
+            animation: fadeIn 1s ease-out;
         }
 
         @keyframes fadeIn {
@@ -62,13 +54,21 @@
 
         h1 {
             font-size: 2.2rem;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             background: linear-gradient(to right, #4facfe, #00f2fe);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             font-weight: 600;
         }
 
+        /* Typing Text Style */
+        .typing-wrapper {
+            font-size: 1rem;
+            color: #ccc;
+            margin-bottom: 20px;
+            height: 25px; /* Fixed height to prevent jumping */
+        }
+        
         .image-container img {
             width: 140px;
             height: 140px;
@@ -90,7 +90,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
-            margin: 20px 0 30px 0;
+            margin: 20px 0;
             text-align: left;
         }
 
@@ -113,55 +113,115 @@
             margin: 25px 0 15px 0;
             text-transform: uppercase;
             letter-spacing: 2px;
-            position: relative;
             display: inline-block;
+            width: 100%;
         }
+
+        /* Skills Progress Bars */
+        .skills-container {
+            text-align: left;
+            margin: 10px 0 20px 0;
+            padding: 0 10px;
+        }
+        .skill-box { margin-bottom: 12px; }
+        .skill-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        .skill-name { font-size: 0.85rem; color: #eee; }
+        .skill-pct { font-size: 0.8rem; color: #4facfe; }
         
-        h2::after {
-            content: ''; display: block; width: 50%; height: 2px;
-            background: #4facfe; margin: 5px auto 0; border-radius: 2px;
+        .progress-bar {
+            width: 100%; height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px; overflow: hidden;
+        }
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #4facfe, #00f2fe);
+            border-radius: 10px;
+            animation: slideIn 1.5s ease-out forwards;
+            width: 0; /* Start at 0 for animation */
+        }
+        @keyframes slideIn { to { width: var(--w); } }
+
+        /* Social Media Icons */
+        .social-buttons {
+            margin: 25px 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .social-btn {
+            width: 45px; height: 45px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; color: #fff;
+            text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+        }
+        .social-btn:hover {
+            background: #4facfe;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.3);
+            border-color: #4facfe;
         }
 
-        ul { list-style: none; display: flex; justify-content: center; gap: 12px; }
-        li { background: rgba(255, 255, 255, 0.1); padding: 8px 24px; border-radius: 50px; font-size: 0.9rem; transition: 0.3s; }
-        li:hover { background: rgba(79, 172, 254, 0.2); color: #4facfe; transform: translateY(-2px); }
+        /* Button Group */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
 
-        a { color: #fff; text-decoration: none; transition: color 0.3s; }
-        a:hover { color: #00f2fe; }
-
-        .timeline-btn {
-            display: inline-block;
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
-            color: #111;
-            padding: 12px 30px;
+        .btn {
+            padding: 12px 25px;
             border-radius: 30px;
             font-weight: 600;
             text-decoration: none;
-            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4);
-            transition: transform 0.3s ease;
-            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
+
+        .primary-btn {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: #111;
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.2);
+            border: none;
+        }
+        .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 242, 254, 0.4); }
+
+        .secondary-btn {
+            background: transparent;
+            border: 2px solid #4facfe;
+            color: #4facfe;
+        }
+        .secondary-btn:hover { background: #4facfe; color: #111; }
 
         @media (max-width: 480px) {
             .glass-box { padding: 25px; }
             .details-grid { grid-template-columns: 1fr; }
             .full-width { grid-column: span 1; }
+            .button-group { flex-direction: column; }
+            .btn { width: 100%; }
         }
     </style>
 </head>
 <body>
 
-    <div id="profile-section" class="glass-box">
-        <h1>Antony's Profile</h1>
+    <div class="glass-box">
+        <h1>Antony Selvam</h1>
+        
+        <div class="typing-wrapper">
+            I am a <span id="typing"></span>
+        </div>
+
         <div class="image-container">
             <img src="Assets/1000123114.png" alt="Profile Picture">
         </div>
 
         <div class="details-grid">
-            <div class="detail-card">
-                <span class="detail-label">Name</span>
-                <span class="detail-value">Maria Antony Selvam S</span>
-            </div>
             <div class="detail-card">
                 <span class="detail-label">Born</span>
                 <span class="detail-value">Feb 6, 2008</span>
@@ -170,32 +230,62 @@
                 <span class="detail-label">Native</span>
                 <span class="detail-value">Kuruvinatham</span>
             </div>
-            <div class="detail-card">
-                <span class="detail-label">Course</span>
-                <span class="detail-value">BCA</span>
-            </div>
             <div class="detail-card full-width">
-                <span class="detail-label">College</span>
-                <span class="detail-value">Kamaraj College</span>
+                <span class="detail-label">Education</span>
+                <span class="detail-value">BCA, Kamaraj College</span>
             </div>
         </div>
         
-        <h2>Hobbies</h2>
-        <ul>
-            <li>Gaming</li>
-            <li>Coding</li>
-            <li>Editing</li>
-        </ul>
+        <h2>My Skills</h2>
+        <div class="skills-container">
+            <div class="skill-box">
+                <div class="skill-header">
+                    <span class="skill-name">Video Editing (AE/Premiere)</span>
+                    <span class="skill-pct">90%</span>
+                </div>
+                <div class="progress-bar"><div class="progress" style="--w: 90%;"></div></div>
+            </div>
+            
+            <div class="skill-box">
+                <div class="skill-header">
+                    <span class="skill-name">Web Development</span>
+                    <span class="skill-pct">75%</span>
+                </div>
+                <div class="progress-bar"><div class="progress" style="--w: 75%;"></div></div>
+            </div>
 
-        <h2>Contact Information</h2>
-        <div class="contact-info">
-            <p>Email: <a href="mailto:selvam.m.s.k2442@gmail.com">selvam.m.s.k2442@gmail.com</a></p>
-            <p>Phone: <a href="https://wa.me/qr/PDXKKTQ4YR7VG1">+91 6380466535</a></p>
-            <p>Instagram: <a href="https://www.instagram.com/alan_editxz/?__pwa=1#" target="_blank">alan_editxz</a></p>
+            <div class="skill-box">
+                <div class="skill-header">
+                    <span class="skill-name">Gaming</span>
+                    <span class="skill-pct">100%</span>
+                </div>
+                <div class="progress-bar"><div class="progress" style="--w: 100%;"></div></div>
+            </div>
         </div>
 
-        <a href="TimeLine.html" class="timeline-btn">View My Journey 🚀</a>
+        <div class="social-buttons">
+            <a href="mailto:selvam.m.s.k2442@gmail.com" class="social-btn" title="Email"><i class="fas fa-envelope"></i></a>
+            <a href="https://wa.me/qr/PDXKKTQ4YR7VG1" class="social-btn" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/alan_editxz/" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+
+        <div class="button-group">
+            <a href="TimeLine.html" class="btn primary-btn">My Journey 🚀</a>
+            <a href="Assets/Resume.pdf" download class="btn secondary-btn">Download CV 📥</a>
+        </div>
     </div>
 
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script>
+        var typed = new Typed('#typing', {
+            strings: ['Student.', 'Video Editor.', 'Web Developer.', 'Gamer.'],
+            typeSpeed: 60,
+            backSpeed: 40,
+            loop: true,
+            showCursor: true,
+            cursorChar: '|'
+        });
+    </script>
 </body>
 </html>
