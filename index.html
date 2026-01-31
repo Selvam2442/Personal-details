@@ -13,12 +13,11 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', sans-serif;
+            cursor: none; /* Hide default cursor for custom one */
         }
 
         body {
-            background: linear-gradient(45deg, #111111, #1a1a2e, #16213e);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: #0f0f1a;
             color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -26,31 +25,93 @@
             align-items: center;
             padding: 20px;
             overflow-x: hidden;
+            position: relative;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* --- BACKGROUND BLOBS (To show off Glass effect) --- */
+        .blob {
+            position: absolute;
+            width: 300px; height: 300px;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.6;
+            animation: moveBlob 10s infinite alternate;
+        }
+        .blob-1 { background: #4facfe; top: 10%; left: 10%; }
+        .blob-2 { background: #00f2fe; bottom: 10%; right: 10%; animation-delay: -5s; }
+
+        @keyframes moveBlob {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(30px, -30px) scale(1.1); }
         }
 
+        /* --- CUSTOM CURSOR --- */
+        .cursor {
+            width: 20px; height: 20px;
+            border: 2px solid #00f2fe;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.2s, height 0.2s, background 0.2s;
+            box-shadow: 0 0 10px #00f2fe;
+        }
+        .cursor.hovered {
+            width: 50px; height: 50px;
+            background: rgba(0, 242, 254, 0.1);
+            border-color: #4facfe;
+        }
+
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 0.5s ease;
+        }
+        .loader-ring {
+            width: 80px; height: 80px;
+            border: 4px solid transparent;
+            border-top: 4px solid #00f2fe;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        .loader-text {
+            margin-top: 15px;
+            color: #00f2fe;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            animation: blink 1s infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes blink { 50% { opacity: 0.5; } }
+
+        /* --- GLASS BOX (With Tilt) --- */
         .glass-box {
             background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 24px;
             padding: 40px;
             width: 100%;
-            max-width: 550px;
+            max-width: 500px; /* Slightly narrower for better tilt */
             text-align: center;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            animation: fadeIn 1s ease-out;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
+        /* Float effect for elements inside 3D card */
+        .glass-box > * { transform: translateZ(20px); }
+        .image-container { transform: translateZ(50px); }
+        .button-group { transform: translateZ(30px); }
 
         h1 {
             font-size: 2.2rem;
@@ -61,28 +122,23 @@
             font-weight: 600;
         }
 
-        /* Typing Text Style */
         .typing-wrapper {
-            font-size: 1rem;
-            color: #ccc;
-            margin-bottom: 20px;
-            height: 25px; /* Fixed height to prevent jumping */
+            font-size: 1rem; color: #ccc; margin-bottom: 20px; height: 25px;
         }
         
         .image-container img {
-            width: 140px;
-            height: 140px;
+            width: 140px; height: 140px;
             object-fit: cover;
             border-radius: 50%;
             border: 3px solid rgba(255, 255, 255, 0.2);
             padding: 5px;
             transition: all 0.4s ease;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
         }
 
         .image-container img:hover {
-            transform: scale(1.05) rotate(3deg);
             border-color: #00f2fe;
-            box-shadow: 0 0 25px rgba(0, 242, 254, 0.5);
+            box-shadow: 0 0 35px rgba(0, 242, 254, 0.5);
         }
 
         /* Details Grid */
@@ -99,118 +155,75 @@
             padding: 12px 15px;
             border-radius: 12px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: background 0.3s;
+            transition: 0.3s;
         }
+        .detail-card:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-2px); }
 
-        .detail-card:hover { background: rgba(255, 255, 255, 0.12); }
         .detail-label { font-size: 0.75rem; color: #4facfe; text-transform: uppercase; display: block; }
         .detail-value { font-size: 0.95rem; font-weight: 600; color: #fff; }
         .full-width { grid-column: span 2; }
 
         h2 {
-            font-size: 1.2rem;
-            color: #4facfe;
-            margin: 25px 0 15px 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            display: inline-block;
-            width: 100%;
+            font-size: 1.2rem; color: #4facfe; margin: 25px 0 15px 0;
+            text-transform: uppercase; letter-spacing: 2px;
+            display: inline-block; width: 100%;
         }
 
-        /* Skills Progress Bars */
-        .skills-container {
-            text-align: left;
-            margin: 10px 0 20px 0;
-            padding: 0 10px;
-        }
+        /* Skills */
+        .skills-container { text-align: left; margin: 10px 0 20px 0; padding: 0 5px; }
         .skill-box { margin-bottom: 12px; }
         .skill-header { display: flex; justify-content: space-between; margin-bottom: 5px; }
         .skill-name { font-size: 0.85rem; color: #eee; }
         .skill-pct { font-size: 0.8rem; color: #4facfe; }
-        
-        .progress-bar {
-            width: 100%; height: 6px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px; overflow: hidden;
-        }
+        .progress-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; }
         .progress {
-            height: 100%;
-            background: linear-gradient(90deg, #4facfe, #00f2fe);
-            border-radius: 10px;
-            animation: slideIn 1.5s ease-out forwards;
-            width: 0; /* Start at 0 for animation */
+            height: 100%; background: linear-gradient(90deg, #4facfe, #00f2fe);
+            border-radius: 10px; width: 0; animation: slideIn 1.5s ease-out forwards 0.5s;
         }
         @keyframes slideIn { to { width: var(--w); } }
 
-        /* Social Media Icons */
-        .social-buttons {
-            margin: 25px 0;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
+        /* Social Icons */
+        .social-buttons { margin: 25px 0; display: flex; justify-content: center; gap: 20px; }
         .social-btn {
-            width: 45px; height: 45px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.05);
+            width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.05);
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem; color: #fff;
-            text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: all 0.3s;
+            font-size: 1.1rem; color: #fff; text-decoration: none;
+            border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s;
         }
-        .social-btn:hover {
-            background: #4facfe;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.3);
-            border-color: #4facfe;
-        }
+        .social-btn:hover { background: #4facfe; transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0, 242, 254, 0.5); }
 
-        /* Button Group */
-        .button-group {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
+        /* Buttons */
+        .button-group { display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
         .btn {
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-size: 0.9rem;
+            padding: 12px 25px; border-radius: 30px; font-weight: 600; text-decoration: none;
+            transition: all 0.3s ease; font-size: 0.9rem;
         }
-
-        .primary-btn {
-            background: linear-gradient(45deg, #4facfe, #00f2fe);
-            color: #111;
-            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.2);
-            border: none;
-        }
+        .primary-btn { background: linear-gradient(45deg, #4facfe, #00f2fe); color: #111; border: none; }
         .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 242, 254, 0.4); }
-
-        .secondary-btn {
-            background: transparent;
-            border: 2px solid #4facfe;
-            color: #4facfe;
-        }
+        .secondary-btn { background: transparent; border: 2px solid #4facfe; color: #4facfe; }
         .secondary-btn:hover { background: #4facfe; color: #111; }
 
         @media (max-width: 480px) {
-            .glass-box { padding: 25px; }
+            .glass-box { padding: 25px; max-width: 90%; }
             .details-grid { grid-template-columns: 1fr; }
             .full-width { grid-column: span 1; }
-            .button-group { flex-direction: column; }
-            .btn { width: 100%; }
+            .blob { opacity: 0.3; }
         }
     </style>
 </head>
 <body>
 
-    <div class="glass-box">
+    <div id="preloader">
+        <div class="loader-ring"></div>
+        <div class="loader-text">SYSTEM INITIALIZING...</div>
+    </div>
+
+    <div class="cursor" id="cursor"></div>
+
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+
+    <div class="glass-box" data-tilt data-tilt-glare data-tilt-max-glare="0.2" data-tilt-scale="1.02">
         <h1>Antony Selvam</h1>
         
         <div class="typing-wrapper">
@@ -227,8 +240,8 @@
                 <span class="detail-value">Feb 6, 2008</span>
             </div>
             <div class="detail-card">
-                <span class="detail-label">Native</span>
-                <span class="detail-value">Kuruvinatham</span>
+                <span class="detail-label">Location</span>
+                <span class="detail-value">TN, India</span>
             </div>
             <div class="detail-card full-width">
                 <span class="detail-label">Education</span>
@@ -239,35 +252,23 @@
         <h2>My Skills</h2>
         <div class="skills-container">
             <div class="skill-box">
-                <div class="skill-header">
-                    <span class="skill-name">Video Editing (AE/Premiere)</span>
-                    <span class="skill-pct">90%</span>
-                </div>
+                <div class="skill-header"><span class="skill-name">Editing (AE/Premiere)</span><span class="skill-pct">90%</span></div>
                 <div class="progress-bar"><div class="progress" style="--w: 90%;"></div></div>
             </div>
-            
             <div class="skill-box">
-                <div class="skill-header">
-                    <span class="skill-name">Web Development</span>
-                    <span class="skill-pct">75%</span>
-                </div>
+                <div class="skill-header"><span class="skill-name">Web Development</span><span class="skill-pct">75%</span></div>
                 <div class="progress-bar"><div class="progress" style="--w: 75%;"></div></div>
             </div>
-
             <div class="skill-box">
-                <div class="skill-header">
-                    <span class="skill-name">Gaming</span>
-                    <span class="skill-pct">100%</span>
-                </div>
+                <div class="skill-header"><span class="skill-name">Gaming</span><span class="skill-pct">100%</span></div>
                 <div class="progress-bar"><div class="progress" style="--w: 100%;"></div></div>
             </div>
         </div>
 
         <div class="social-buttons">
-            <a href="mailto:selvam.m.s.k2442@gmail.com" class="social-btn" title="Email"><i class="fas fa-envelope"></i></a>
-            <a href="https://wa.me/qr/PDXKKTQ4YR7VG1" class="social-btn" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.instagram.com/alan_editxz/" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://github.com/Selvam2442" class="social-btn" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="mailto:selvam.m.s.k2442@gmail.com" class="social-btn"><i class="fas fa-envelope"></i></a>
+            <a href="https://wa.me/qr/PDXKKTQ4YR7VG1" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/alan_editxz/" class="social-btn"><i class="fab fa-instagram"></i></a>
         </div>
 
         <div class="button-group">
@@ -277,7 +278,33 @@
     </div>
 
     <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
+    
     <script>
+        // 1. Preloader Logic
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => { preloader.style.display = 'none'; }, 500);
+            }, 1500); // 1.5 seconds loading time
+        });
+
+        // 2. Custom Cursor Logic
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Add hover effect to interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .glass-box');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
+        });
+
+        // 3. Typing Effect
         var typed = new Typed('#typing', {
             strings: ['Student.', 'Video Editor.', 'Web Developer.', 'Gamer.'],
             typeSpeed: 60,
