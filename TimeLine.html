@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Antony's Timeline</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
 
         * {
             margin: 0;
@@ -15,19 +17,58 @@
         }
 
         body {
-            background: linear-gradient(45deg, #111111, #1a1a2e, #16213e);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background-color: #0f0f1a;
             color: #ffffff;
             min-height: 100vh;
             overflow-x: hidden;
+            position: relative;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        /* --- Floating Particles Background --- */
+        .particles {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000 100%);
         }
+        
+        .particle {
+            position: absolute;
+            width: 5px; height: 5px;
+            background: rgba(79, 172, 254, 0.5);
+            border-radius: 50%;
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
+        /* --- Music Player --- */
+        .music-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 200;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px;
+            border-radius: 50%;
+            border: 1px solid rgba(79, 172, 254, 0.4);
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.2);
+            transition: all 0.3s;
+            width: 60px; height: 60px;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .music-player:hover { transform: scale(1.1); background: rgba(79, 172, 254, 0.3); }
+        .music-icon { font-size: 1.5rem; color: #fff; animation: spin 4s linear infinite; animation-play-state: paused; }
+        .playing .music-icon { animation-play-state: running; color: #00f2fe; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* --- Navigation --- */
         .nav-header {
@@ -36,12 +77,13 @@
             top: 0;
             width: 100%;
             z-index: 100;
-            background: rgba(17, 17, 17, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(15, 15, 26, 0.85);
+            backdrop-filter: blur(12px);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
 
         .back-btn {
@@ -52,21 +94,26 @@
             border: 1px solid rgba(79, 172, 254, 0.3);
             border-radius: 20px;
             transition: all 0.3s;
+            font-size: 0.9rem;
         }
 
         .back-btn:hover {
-            background: rgba(79, 172, 254, 0.2);
-            box-shadow: 0 0 15px rgba(79, 172, 254, 0.4);
+            background: #4facfe;
+            color: #000;
+            box-shadow: 0 0 15px rgba(79, 172, 254, 0.6);
         }
 
         h1 {
             text-align: center;
-            margin-top: 100px;
-            margin-bottom: 50px;
-            font-size: 2.5rem;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
+            margin-top: 110px;
+            margin-bottom: 60px;
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #fff, #4facfe);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(0, 242, 254, 0.3);
         }
 
         /* --- Timeline Container --- */
@@ -75,31 +122,32 @@
             max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
+            padding-bottom: 100px;
         }
 
         /* The vertical line */
         .timeline::after {
             content: '';
             position: absolute;
-            width: 4px;
-            background: rgba(79, 172, 254, 0.3);
-            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+            width: 6px;
+            background: linear-gradient(to bottom, #4facfe, #00f2fe, #a6c1ee);
             top: 0;
             bottom: 0;
             left: 50%;
-            margin-left: -2px;
-            border-radius: 2px;
+            margin-left: -3px;
+            border-radius: 3px;
+            box-shadow: 0 0 20px rgba(79, 172, 254, 0.4);
         }
 
         /* Container around content */
         .container-box {
-            padding: 10px 40px;
+            padding: 10px 50px;
             position: relative;
             background-color: inherit;
             width: 50%;
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease-out;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         .container-box.visible {
@@ -107,206 +155,288 @@
             transform: translateY(0);
         }
 
-        /* The circles on the line */
+        /* The dots */
         .container-box::after {
             content: '';
             position: absolute;
-            width: 20px;
-            height: 20px;
-            right: -10px;
-            background-color: #1a1a2e;
-            border: 4px solid #00f2fe;
+            width: 24px;
+            height: 24px;
+            right: -12px;
+            background-color: #0f0f1a;
+            border: 5px solid #00f2fe;
             top: 25px;
             border-radius: 50%;
-            z-index: 1;
-            box-shadow: 0 0 10px #00f2fe;
+            z-index: 10;
+            box-shadow: 0 0 15px #00f2fe;
+            transition: transform 0.3s;
         }
+        
+        .container-box:hover::after { transform: scale(1.3); background-color: #fff; }
 
         .left { left: 0; }
         .right { left: 50%; }
 
+        /* Arrows */
         .left::before {
             content: " ";
-            height: 0;
-            position: absolute;
-            top: 28px;
-            width: 0;
-            z-index: 1;
-            right: 30px;
-            border: medium solid rgba(255, 255, 255, 0.1);
+            height: 0; position: absolute; top: 28px; width: 0; z-index: 1; right: 40px;
+            border: medium solid rgba(255, 255, 255, 0.05);
             border-width: 10px 0 10px 10px;
-            border-color: transparent transparent transparent rgba(255, 255, 255, 0.1);
+            border-color: transparent transparent transparent rgba(255, 255, 255, 0.08);
         }
 
         .right::before {
             content: " ";
-            height: 0;
-            position: absolute;
-            top: 28px;
-            width: 0;
-            z-index: 1;
-            left: 30px;
-            border: medium solid rgba(255, 255, 255, 0.1);
+            height: 0; position: absolute; top: 28px; width: 0; z-index: 1; left: 40px;
+            border: medium solid rgba(255, 255, 255, 0.05);
             border-width: 10px 10px 10px 0;
-            border-color: transparent rgba(255, 255, 255, 0.1) transparent transparent;
+            border-color: transparent rgba(255, 255, 255, 0.08) transparent transparent;
         }
 
-        .right::after { left: -10px; }
+        .right::after { left: -12px; }
 
         /* --- Content Card Style --- */
         .content {
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             position: relative;
-            border-radius: 15px;
-            transition: transform 0.3s;
-            text-align: center; /* Center the image box */
+            border-radius: 20px;
+            transition: all 0.4s ease;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
         .content:hover {
-            transform: scale(1.02);
-            background: rgba(255, 255, 255, 0.08);
-            border-color: #4facfe;
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255, 255, 255, 0.07);
+            border-color: rgba(79, 172, 254, 0.5);
+            box-shadow: 0 15px 40px rgba(0, 242, 254, 0.15);
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 10px;
         }
 
         .year-title {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #4facfe;
-            margin-bottom: 15px;
-            display: block;
-            text-align: left; /* Keep title to the left */
+            font-size: 2rem;
+            font-weight: 800;
+            color: #fff;
+            text-shadow: 0 0 10px rgba(79, 172, 254, 0.8);
         }
 
-        /* --- 9:16 RATIO UPDATE --- */
+        .age-tag {
+            font-size: 0.8rem;
+            background: rgba(79, 172, 254, 0.2);
+            color: #4facfe;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        /* --- 9:16 IMAGE BOX --- */
         .image-box {
             width: 100%;
-            max-width: 250px; /* Limits width so it looks like a phone screen */
-            aspect-ratio: 9 / 16; /* FORCES 9:16 RATIO */
-            margin: 0 auto; /* Centers the box */
+            max-width: 240px; 
+            aspect-ratio: 9 / 16;
+            margin: 0 auto;
             border-radius: 15px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             justify-content: center;
             align-items: center;
-            background: rgba(0,0,0,0.3);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: #000;
+            position: relative;
         }
 
         .image-box img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensures image fills the 9:16 box perfectly */
-            transition: transform 0.5s;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
-        .image-box img:hover {
-            transform: scale(1.1);
-        }
+        .content:hover .image-box img { transform: scale(1.08); }
 
-        /* --- Photo Not Found Style --- */
-        .no-photo {
-            color: rgba(255, 255, 255, 0.3);
+        .caption-text {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #ccc;
             font-style: italic;
+        }
+
+        /* --- LOCKED MEMORY STYLE (No Photo) --- */
+        .locked-memory {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            justify-content: center;
+            color: #ff4b4b;
+            height: 100%;
+            width: 100%;
+            background: radial-gradient(circle, rgba(50,0,0,0.5) 0%, #000 100%);
         }
         
-        .no-photo span {
-            font-size: 2rem;
+        .lock-icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.8; }
+        .glitch-text { 
+            font-family: 'Courier New', monospace; 
+            font-weight: bold; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            animation: glitch 1s infinite;
+        }
+
+        @keyframes glitch {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; text-shadow: 2px 0 red; }
+            100% { opacity: 1; }
         }
 
         /* --- Responsive Design --- */
         @media screen and (max-width: 600px) {
             .timeline::after { left: 31px; }
             .container-box { width: 100%; padding-left: 70px; padding-right: 25px; }
-            .container-box::before { left: 60px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent rgba(255,255,255,0.1) transparent transparent; }
+            .container-box::before { left: 60px; border: medium solid white; border-width: 10px 10px 10px 0; border-color: transparent rgba(255,255,255,0.08) transparent transparent; }
             .left::after, .right::after { left: 21px; }
             .right { left: 0%; }
-            h1 { font-size: 1.8rem; margin-top: 90px;}
-            
-            /* On mobile, allow the image to be slightly wider if needed */
+            h1 { font-size: 2.2rem; margin-top: 90px;}
             .image-box { max-width: 100%; }
         }
     </style>
 </head>
 <body>
 
+    <div class="particles" id="particles"></div>
+
+    <div class="music-player" id="musicBtn" onclick="toggleMusic()">
+        <i class="fas fa-music music-icon"></i>
+    </div>
+    <audio id="bgAudio" loop>
+        <source src="Assets/music.mp3" type="audio/mpeg">
+    </audio>
+
     <nav class="nav-header">
-        <span style="font-weight:600; font-size:1.2rem;">Antony's Journey</span>
-        <a href="index.html" class="back-btn">← Back to Profile</a>
+        <span style="font-weight:600; font-size:1.2rem; color:#fff;">Antony's <span style="color:#4facfe">Journey</span></span>
+        <a href="index.html" class="back-btn">← Home</a>
     </nav>
 
     <h1>2008 - 2026</h1>
 
     <div class="timeline" id="timeline-root">
-        </div>
+    </div>
 
     <script>
-        // CONFIGURATION: Add your images here. 
+        // --- CONFIGURATION ---
+        // I added a 'caption' field. You can fill it in!
+        const birthYear = 2008;
+        
         const timelineData = [
-            { year: 2008, img: "" }, 
-            { year: 2009, img: "Assets/2009.jpg" },
-            { year: 2010, img: "Assets/2010.jpg" },
-            { year: 2011, img: "" },
-            { year: 2012, img: "Assets/2012.jpg" },
-            { year: 2013, img: "Assets/2013.jpg" },
-            { year: 2014, img: "" },
-            { year: 2015, img: "" },
-            { year: 2016, img: "" },
-            { year: 2017, img: "Assets/2017.jpg" },
-            { year: 2018, img: "Assets/2018.jpg" },
-            { year: 2019, img: "Assets/2019.jpg" },
-            { year: 2020, img: "" },
-            { year: 2021, img: "Assets/2021.jpg" },
-            { year: 2022, img: "Assets/2022.jpg" },
-            { year: 2023, img: "Assets/2023.jpg" },
-            { year: 2024, img: "Assets/2024.jpg" },
-            { year: 2025, img: "Assets/2025.jpg" },
-            { year: 2026, img: "Assets/2026.png" }
+            { year: 2008, img: "", caption: "The beginning of the story..." }, 
+            { year: 2009, img: "Assets/2009.jpg", caption: "Childhood Memories" },
+            { year: 2010, img: "Assets/2010.jpg", caption: "" },
+            { year: 2011, img: "", caption: "" },
+            { year: 2012, img: "Assets/2012.jpg", caption: "School Days" },
+            { year: 2013, img: "Assets/2013.jpg", caption: "" },
+            { year: 2014, img: "", caption: "" },
+            { year: 2015, img: "", caption: "" },
+            { year: 2016, img: "", caption: "" },
+            { year: 2017, img: "Assets/2017.jpg", caption: "Growing Up" },
+            { year: 2018, img: "Assets/2018.jpg", caption: "" },
+            { year: 2019, img: "Assets/2019.jpg", caption: "" },
+            { year: 2020, img: "", caption: "Lockdown Year 🔒" },
+            { year: 2021, img: "Assets/2021.jpg", caption: "" },
+            { year: 2022, img: "Assets/2022.jpg", caption: "High School" },
+            { year: 2023, img: "Assets/2023.jpg", caption: "" },
+            { year: 2024, img: "Assets/2024.jpg", caption: "College Life Begins" },
+            { year: 2025, img: "Assets/2025.jpg", caption: "Current Era" },
+            { year: 2026, img: "Assets/2026.png", caption: "The Future" }
         ];
 
+        // --- PARTICLE GENERATOR ---
+        const particleContainer = document.getElementById('particles');
+        const particleCount = 50;
+        
+        for(let i=0; i<particleCount; i++){
+            let part = document.createElement('div');
+            part.className = 'particle';
+            // Random positioning
+            part.style.left = Math.random() * 100 + '%';
+            part.style.animationDuration = (Math.random() * 10 + 5) + 's'; // Random speed
+            part.style.animationDelay = (Math.random() * 5) + 's';
+            part.style.opacity = Math.random();
+            particleContainer.appendChild(part);
+        }
+
+        // --- MUSIC LOGIC ---
+        const audio = document.getElementById('bgAudio');
+        const musicBtn = document.getElementById('musicBtn');
+        
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+                musicBtn.classList.add('playing');
+            } else {
+                audio.pause();
+                musicBtn.classList.remove('playing');
+            }
+        }
+
+        // --- TIMELINE GENERATOR ---
         const root = document.getElementById('timeline-root');
 
         timelineData.forEach((item, index) => {
             const positionClass = index % 2 === 0 ? 'left' : 'right';
+            const age = item.year - birthYear;
+            
+            // Age logic handling (don't show age 0 or negative)
+            let ageTag = age >= 0 ? `<span class="age-tag">${age} Yrs Old</span>` : '';
             
             let imageContent;
             if (item.img && item.img.trim() !== "") {
-                imageContent = `<img src="${item.img}" alt="Photo from ${item.year}">`;
+                imageContent = `<img src="${item.img}" alt="${item.year}">`;
             } else {
                 imageContent = `
-                    <div class="no-photo">
-                        <span>📷</span>
-                        <p>Photo not found</p>
+                    <div class="locked-memory">
+                        <div class="lock-icon"><i class="fas fa-lock"></i></div>
+                        <p class="glitch-text">Memory Locked</p>
                     </div>`;
             }
+
+            const captionHtml = item.caption ? `<p class="caption-text">"${item.caption}"</p>` : '';
 
             const html = `
                 <div class="container-box ${positionClass}">
                     <div class="content">
-                        <span class="year-title">${item.year}</span>
+                        <div class="header-row">
+                            <span class="year-title">${item.year}</span>
+                            ${ageTag}
+                        </div>
                         <div class="image-box">
                             ${imageContent}
                         </div>
+                        ${captionHtml}
                     </div>
                 </div>
             `;
             root.innerHTML += html;
         });
 
+        // --- SCROLL ANIMATION ---
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.1 });
+        }, { threshold: 0.15 });
 
         document.querySelectorAll('.container-box').forEach((box) => {
             observer.observe(box);
