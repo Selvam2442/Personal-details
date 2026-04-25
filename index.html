@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Antony's Portfolio</title>
+    <title>MSK Websites | Code. Create. Conquer.</title>
+
+    <link rel="icon" href="logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --primary: #ff003c;
+            --primary-hover: #ff3366;
+            --bg-dark: #050505;
+            --surface: rgba(25, 25, 25, 0.6);
+            --surface-border: rgba(255, 0, 60, 0.15);
+        }
 
         * {
             margin: 0;
@@ -16,274 +29,369 @@
         }
 
         body {
-            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-            color: #ffffff;
+            background-color: var(--bg-dark);
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(255, 0, 60, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(255, 0, 60, 0.05) 0px, transparent 50%);
+            color: #fff;
             min-height: 100vh;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            padding: 20px;
-            overflow-x: hidden;
-            position: relative;
+            padding: 20px 15px;
         }
 
-        /* Subtle Background Animation */
-        .circles {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            overflow: hidden; z-index: 0;
-        }
-        .circles li {
-            position: absolute; display: block; list-style: none;
-            width: 20px; height: 20px; background: rgba(255, 255, 255, 0.05);
-            animation: animate 25s linear infinite; bottom: -150px;
-        }
-        .circles li:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
-        .circles li:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
-        .circles li:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
-        .circles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
-        .circles li:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
-        .circles li:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
-
-        @keyframes animate {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
-            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+        /* HERO SECTION */
+        .hero {
+            width: 100%;
+            max-width: 550px;
+            margin: 20px auto;
+            background: var(--surface);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--surface-border);
+            border-radius: 24px;
+            padding: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 0, 60, 0.05);
         }
 
-        /* Glass Container */
-        .glass-box {
-            position: relative; z-index: 10;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            padding: 30px;
-            width: 100%; max-width: 500px;
+        /* BANNER (PERFECT 16:9 RATIO) */
+        .banner {
+            width: 100%;
+            aspect-ratio: 16 / 9; /* This forces the 16:9 size dynamically */
+            border-radius: 16px;
+            background: url('banner.png') center/cover no-repeat;
+            box-shadow: inset 0 -20px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* LOGO */
+        .logo-box {
             text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.8s ease-out;
+            margin-top: -55px; /* Pulls logo up into the banner */
+            position: relative;
+            z-index: 2;
         }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        h1 {
-            font-size: 2rem; margin-bottom: 5px;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            font-weight: 700;
-        }
-
-        .typing-wrapper { font-size: 0.95rem; color: #ccc; margin-bottom: 20px; height: 25px; }
-        
-        /* Profile Image */
-        .image-container img {
-            width: 120px; height: 120px; object-fit: cover; border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.15); padding: 4px;
+        .logo-box img {
+            width: 110px;
+            height: 110px;
+            border-radius: 25%; /* Slightly rounded square */
+            border: 4px solid #111;
+            background: #000;
+            box-shadow: 0 0 25px rgba(255, 0, 60, 0.4);
+            object-fit: cover;
             transition: transform 0.3s ease;
         }
-        .image-container img:hover { transform: scale(1.05); border-color: #4facfe; }
-
-        /* Info Grid */
-        .details-grid { 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 20px 0; text-align: left; 
-        }
-        .detail-card {
-            background: rgba(0, 0, 0, 0.2); padding: 12px; border-radius: 10px;
-            border-left: 2px solid #4facfe;
-        }
-        .detail-label { font-size: 0.65rem; color: #aaa; text-transform: uppercase; display: block; }
-        .detail-value { font-size: 0.85rem; font-weight: 600; color: #fff; }
-        .full-width { grid-column: span 2; }
-
-        /* Pricing Section */
-        .pricing-section { margin-top: 25px; }
-        h2.section-title { 
-            font-size: 0.85rem; color: #4facfe; margin-bottom: 15px; 
-            letter-spacing: 1px; text-transform: uppercase; font-weight: 600;
+        
+        .logo-box img:hover {
+            transform: scale(1.05);
         }
 
-        .pricing-grid { 
-            display: grid; grid-template-columns: 1fr 1fr; gap: 15px; 
-        }
-
-        .price-card {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 15px; border-radius: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.05); cursor: pointer;
-            transition: 0.3s ease;
-        }
-
-        .price-card:hover {
-            background: rgba(79, 172, 254, 0.15);
-            border-color: #4facfe;
-            transform: translateY(-5px);
-        }
-
-        .price-card i { font-size: 1.2rem; color: #4facfe; margin-bottom: 8px; }
-        .price-title { font-size: 0.75rem; display: block; color: #ccc; margin-bottom: 4px; }
-        .price-value { font-size: 0.9rem; font-weight: 700; color: #fff; }
-
-        /* Note Section */
-        .note-box {
-            margin-top: 20px;
-            background: rgba(255, 165, 0, 0.1);
-            border: 1px dashed rgba(255, 165, 0, 0.5);
-            padding: 10px;
-            border-radius: 10px;
-            font-size: 0.75rem;
-            color: #ffcc80;
+        /* TITLE */
+        h1 {
             text-align: center;
-        }
-        .note-box i { margin-right: 5px; }
-
-        /* Social Icons */
-        .social-buttons { margin-top: 25px; display: flex; justify-content: center; gap: 15px; }
-        .social-btn {
-            width: 40px; height: 40px; border-radius: 50%;
-            background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center;
-            color: #fff; text-decoration: none; font-size: 1rem;
-            transition: 0.3s; border: 1px solid rgba(255,255,255,0.1);
-        }
-        .social-btn:hover { background: #4facfe; transform: translateY(-3px); }
-
-        /* Modal */
-        .modal {
-            display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(5px);
-            align-items: center; justify-content: center;
+            margin-top: 15px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #fff, #ff003c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
         }
 
-        .modal-content {
-            background: #1a1a2e;
-            padding: 25px; border-radius: 20px; width: 85%; max-width: 320px;
-            text-align: center; border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        /* TYPING */
+        .typing {
+            text-align: center;
+            font-size: 0.95rem;
+            color: #aaa;
+            margin-bottom: 15px;
+            font-weight: 300;
         }
 
-        .modal-btn {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            padding: 12px; margin: 10px 0; border-radius: 10px;
-            text-decoration: none; color: white; font-weight: 600;
-            transition: 0.2s; font-size: 0.9rem;
+        /* SOCIAL MEDIA BUTTONS */
+        .social {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0 10px;
+        }
+
+        .social a {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .social a:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(255, 0, 60, 0.3);
+            color: #fff;
+        }
+
+        /* CONTENT SECTIONS */
+        section {
+            width: 100%;
+            max-width: 550px;
+            margin: 0 auto 20px;
+            padding: 20px;
+            background: var(--surface);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--surface-border);
+            border-radius: 20px;
+        }
+
+        /* TITLES */
+        .section-title {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         
-        .call-btn { background: #4facfe; }
-        .wa-btn { background: #25D366; }
-        .mail-btn { background: #ea4335; }
+        .section-title::before, .section-title::after {
+            content: '';
+            height: 2px;
+            width: 30px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
 
-        .modal-btn:hover { opacity: 0.9; transform: scale(1.02); }
-        .close-modal { margin-top: 15px; cursor: pointer; color: #888; font-size: 0.8rem; }
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
 
-        @media (max-width: 480px) {
-            .glass-box { padding: 25px 20px; }
-            h1 { font-size: 1.8rem; }
+        /* CARD */
+        .card {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 15px 10px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255,0,60,0.1), transparent);
+            transform: translateX(-100%);
+            transition: 0.5s;
+        }
+
+        .card:hover {
+            background: rgba(255, 0, 60, 0.1);
+            border-color: var(--primary);
+            transform: translateY(-4px);
+            box-shadow: 0 5px 15px rgba(255, 0, 60, 0.15);
+        }
+
+        .card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .price-val {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 5px;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .modal-box {
+            background: #111;
+            padding: 30px 25px;
+            border-radius: 20px;
+            text-align: center;
+            width: 90%;
+            max-width: 350px;
+            border: 1px solid var(--primary);
+            box-shadow: 0 10px 40px rgba(255, 0, 60, 0.3);
+            transform: scale(0.9);
+            animation: scaleUp 0.3s forwards;
+        }
+
+        @keyframes scaleUp {
+            to { transform: scale(1); }
+        }
+
+        .modal-box h3 {
+            margin-bottom: 20px;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .modal-box a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 12px 0;
+            padding: 12px;
+            border-radius: 10px;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .call { background: #222; border: 1px solid #333; }
+        .wa { background: #25D366; color: #000 !important; }
+        .mail { background: var(--primary); }
+
+        .modal-box a:hover {
+            transform: scale(1.03);
+            filter: brightness(1.1);
+        }
+
+        .close {
+            margin-top: 20px;
+            cursor: pointer;
+            color: #888;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+        
+        .close:hover {
+            color: #fff;
         }
     </style>
 </head>
+
 <body>
 
-    <ul class="circles">
-        <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
-    </ul>
+    <div class="hero">
 
-    <div class="glass-box">
-        <h1>Antony Selvam</h1>
-        
-        <div class="typing-wrapper">
-            I am a <span id="typing"></span>
+        <div class="banner"></div>
+
+        <div class="logo-box">
+            <img src="logo.png" alt="MSK Logo">
         </div>
 
-        <div class="image-container">
-            <img src="Assets/1000123114.png" alt="Profile Picture">
+        <h1>MSK WEBSITES</h1>
+
+        <div class="typing">
+            > I build <span id="typing"></span>
         </div>
 
-        <div class="details-grid">
-            <div class="detail-card">
-                <span class="detail-label">Born</span>
-                <span class="detail-value">Feb 6, 2008</span>
-            </div>
-            <div class="detail-card">
-                <span class="detail-label">Native</span>
-                <span class="detail-value">Kuruvinatham</span>
-            </div>
-            <div class="detail-card full-width">
-                <span class="detail-label">Education</span>
-                <span class="detail-value">BCA, Kamaraj College</span>
-            </div>
-        </div>
-        
-        <div class="pricing-section">
-            <h2 class="section-title">Website Packages</h2>
-            <div class="pricing-grid">
-                <div class="price-card" onclick="openModal('Business Website')">
-                    <i class="fas fa-briefcase"></i>
-                    <span class="price-title">Business</span>
-                    <span class="price-value">₹1k - 4k</span>
-                </div>
-                <div class="price-card" onclick="openModal('Personal Profile')">
-                    <i class="fas fa-user-circle"></i>
-                    <span class="price-title">Profile</span>
-                    <span class="price-value">₹500 - 2.5k</span>
-                </div>
-            </div>
-
-            <div class="note-box">
-                <i class="fas fa-info-circle"></i> 
-                Note: I create professional <b>Static Websites</b> (HTML/CSS). 
-                <br>No Backend or Database included.
-            </div>
+        <div class="social">
+            <a href="https://wa.me/qr/PDXKKTQ4YR7VG1"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://www.instagram.com/alan_editxz/"><i class="fab fa-instagram"></i></a>
+            <a href="mailto:selvam.m.s.k2442@gmail.com"><i class="fas fa-envelope"></i></a>
         </div>
 
-        <div class="social-buttons">
-            <a href="https://wa.me/qr/PDXKKTQ4YR7VG1" class="social-btn"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://www.instagram.com/alan_editxz/" class="social-btn"><i class="fab fa-instagram"></i></a>
-            <a href="mailto:selvam.m.s.k2442@gmail.com" class="social-btn"><i class="fas fa-envelope"></i></a>
+    </div>
+
+    <section>
+        <h2 class="section-title">Services</h2>
+        <div class="grid">
+            <div class="card">Business Website</div>
+            <div class="card">Portfolio</div>
+            <div class="card">Responsive Design</div>
+            <div class="card">Fast Loading</div>
+        </div>
+    </section>
+
+    <section>
+        <h2 class="section-title">Pricing</h2>
+        <div class="grid">
+            <div class="card" onclick="openModal('Business Website')">
+                Business
+                <span class="price-val">₹1k - 4k</span>
+            </div>
+            <div class="card" onclick="openModal('Profile Website')">
+                Profile
+                <span class="price-val">₹500 - 2.5k</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal" id="modal">
+        <div class="modal-box">
+            <h3 id="title">Order Service</h3>
+            <a href="tel:+916380466535" class="call"><i class="fas fa-phone-alt"></i> Call Now</a>
+            <a href="https://wa.me/qr/PDXKKTQ4YR7VG1" class="wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            <a href="mailto:selvam.m.s.k2442@gmail.com" class="mail"><i class="fas fa-envelope"></i> Email</a>
+            <div class="close" onclick="closeModal()">[ Close ]</div>
         </div>
     </div>
 
-    <div id="contactModal" class="modal">
-        <div class="modal-content">
-            <h3 id="serviceTitle" style="color: #fff; margin-bottom: 20px;">Contact Me</h3>
-            
-            <a href="tel:+916380466535" class="modal-btn call-btn">
-                <i class="fas fa-phone-alt"></i> Call Now
-            </a>
-
-            <a href="https://wa.me/qr/PDXKKTQ4YR7VG1" class="modal-btn wa-btn">
-                <i class="fab fa-whatsapp"></i> WhatsApp
-            </a>
-            
-            <a href="mailto:selvam.m.s.k2442@gmail.com" class="modal-btn mail-btn">
-                <i class="fas fa-envelope"></i> Email
-            </a>
-            
-            <p class="close-modal" onclick="closeModal()">Close</p>
-        </div>
-    </div>
-
-    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
     <script>
-        var typed = new Typed('#typing', {
-            strings: ['Student.', 'Video Editor.', 'Web Developer.', 'Gamer.'],
-            typeSpeed: 60, backSpeed: 40, loop: true, showCursor: true, cursorChar: '|'
+        new Typed('#typing', {
+            strings: ['Modern Websites.', 'Clean UI.', 'Fast Experiences.', 'Digital Solutions.'],
+            typeSpeed: 50,
+            backSpeed: 30,
+            loop: true,
+            cursorChar: '_'
         });
 
-        const modal = document.getElementById('contactModal');
-        const serviceTitle = document.getElementById('serviceTitle');
+        const modal = document.getElementById('modal');
+        const title = document.getElementById('title');
 
         function openModal(name) {
-            serviceTitle.innerText = "Order " + name;
-            modal.style.display = "flex";
+            title.innerText = name;
+            modal.style.display = 'flex';
         }
 
         function closeModal() {
-            modal.style.display = "none";
+            modal.style.display = 'none';
         }
 
-        window.onclick = function(event) {
-            if (event.target == modal) closeModal();
+        window.onclick = e => {
+            if (e.target == modal) closeModal();
         }
     </script>
+
 </body>
+
 </html>
